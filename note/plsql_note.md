@@ -229,6 +229,9 @@ module主要属性有property class  、module name 、first navigation
 - 调试信息：1、plsql 中调用函数， 2、ebs中编辑配置文件   3、查看调试信息fnd_log_messages(调试信息表)
 - help  诊断properties ，item 可以查看form 属性![image-20201211192235622](C:\Users\72810\AppData\Roaming\Typora\typora-user-images\image-20201211192235622.png)
 - ebs    examine   system 块，  record_status   ，根据当前光标状态触发触发器，  状态有：new（光标没操作，可以离开该item）、insert（已经进行修改，必须将所有要填的字段填写正确光标才可离开,触发on_insert）、query（已查出记录，并未修改）、changed（查出记录，并修改，保存触发on_update，检查到changed之后，马上触发on_lock）等等
+- form 未显示 ×   可能原因画布比窗口大
+- 再重新使用数据库向导之后，块里面的 row_id 等字段长度可能会变小，需要改回来
+- on_insert触发器触发顺序不对 可能原因，数据块位置不对，调整下数据块位置就可以了
 
 ## 
 

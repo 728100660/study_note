@@ -2,6 +2,8 @@
 
 - java四种引用类型
 
+- 结构体？
+
 - 可变数组ArrayList 
 
   ```java

@@ -65,3 +65,11 @@
 ​	应用举例   Deque<Integer> deque = new LinkedList<>();   **注意是LinkedList而不是LinkList！！！！！！**
 
 ​	常用方法deque.peekFirst(),removeFirst(),removeLast()，isEmpty(),addLast()等
+
+
+
+### 7.2 List（可通过add（）动态添加元素）
+
+​	应用举例   List<String> list = new ArrayList<>();  
+
+​	常用方法，list.add(str), contains(str)

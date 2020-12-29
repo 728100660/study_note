@@ -1,4 +1,4 @@
-## 0、前言
+## 0、重点记录
 
 基于java实现的轻量级web框架（核心servlet）
 
@@ -40,6 +40,48 @@ mvp, mvvm: m  v    vm(viewmodel)
 ​	功能强大：restful、数据验证、格式化、本地化、主题等
 
 ​	简洁灵活
+
+### 0.3 mvc 请求流程图（面试重点！）
+
+​	实线事mvc 帮我们实现的，虚线是我们需要自己完善的
+
+![image-20201229201543796](C:\Users\pxz\AppData\Roaming\Typora\typora-user-images\image-20201229201543796.png)
+
+​	1 用户的所有请求都会呗dispatcherservlet拦截】
+
+​	2 handlemapping  处理映射，根据url查找处理器
+
+​	3 handlerexecution   将解析后的信息返回给dispatcherservlet 
+
+​	5 handleradapter  处理适配器，按照一定的规则去执行handler，找到controller（所有实现了controller的类或者，呗注解了的）
+
+​	6 controller  调用业务层和数据库，返回ModelAndView
+
+​	9 dispatcherservlet 调用视图解析器veiwresolver（1、得到modelandView数据，2、解析ModelAndView的视图名字，根据规则拼接名字，找到对应的视图 4、将数据渲染到这个视图上面）解析modelAndView
+
+​	12 dispatcherservlet 根据解析器得到的结果，调用具体的视图
+
+### 0.4 WEB-INF目录
+
+​	为什么把视图放在这个目录下面，为了保证视图安全，放置在这个目录下的视图，客户端不能直接访问
+
+### 0.5 注解 
+
+​	@Controller 注解的类，返回的东西会通过视图解析器
+
+​	@RestController注解，返回的不会，前后端分离，返回json数据
+
+​	@RequestMapping("/hello")    匹配路由，可以注解类和方法
+
+​	@Component      组件
+
+​	@Service	service
+
+​	@Controller	controller
+
+​	@Repository	dao
+
+![image-20201229221913517](C:\Users\pxz\AppData\Roaming\Typora\typora-user-images\image-20201229221913517.png)
 
 ## 1、三层框架
 

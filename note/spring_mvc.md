@@ -1,4 +1,4 @@
-## 0、重点记录
+##  0、重点记录
 
 基于java实现的轻量级web框架（核心servlet）
 
@@ -21,6 +21,8 @@ springmvc：ssm框架整合
 mvc：model模型（dao数据库交互，service 业务逻辑控制），view视图（jsp），controler控制器（servlet   转发重定向	）；
 
 mvp, mvvm: m  v    vm(viewmodel)
+
+
 
 ### 0.1 创建项目步骤：
 
@@ -81,7 +83,27 @@ mvp, mvvm: m  v    vm(viewmodel)
 
 ​	@Repository	dao
 
+​	@RequestParam("")  //用于接收前端参数
+
 ![image-20201229221913517](C:\Users\pxz\AppData\Roaming\Typora\typora-user-images\image-20201229221913517.png)
+
+### 0.6 转发和重定向
+
+​	地址栏url不变是转发，地址栏url变了是重定向
+
+​	springmvc默认使用的是转发，如果需要重定向则需要return "redirect :/ index.jsp"   
+
+redirect 使用的是全限定名路径，使用了redirect之后springmvc是不会走视图解析器的
+
+### 0.7 前端传参
+
+​	1、传递多个参数
+
+​	可以通过封装实体类，实体类与参数名字一一对应，spring帮你自动匹配
+
+### 0.8 过滤器解决乱码
+
+​	过滤器自己手写，视频13集
 
 ## 1、三层框架
 

@@ -71,6 +71,7 @@
 
 ​	常用方法deque.peekFirst(),removeFirst(),removeLast()，isEmpty(),addLast()等
 
+<<<<<<< HEAD
 ## 8、笔试题
 
 ### 8.1
@@ -150,3 +151,12 @@ public` `class` `Test {
 test static 1
 test static 2
 ```
+=======
+
+
+### 7.2 List（可通过add（）动态添加元素）
+
+​	应用举例   List<String> list = new ArrayList<>();  
+
+​	常用方法，list.add(str), contains(str)
+>>>>>>> 98df86d224cca475ef129f8df745f76326df398c

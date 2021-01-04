@@ -36,11 +36,15 @@
 
 ​	猜测：可能是通过数据代码名字和并发程序的简称关联
 
-### 4、手动添加模板元素
+### 4、plsql 生成html
+
+​	无需定义模板，数据源，定义可执行，并发请求，接受plsql程序包返回的html数据并通过浏览器直接显示出来。
+
+### 5、手动添加模板元素
 
 ​	复制其他元素，在帮助元素中，修改成你要添加的数据源item名字即可
 
-### 5、主机类型并发	请求
+### 6、主机类型并发	请求
 
 ![image-20201229172242157](C:\Users\72810\AppData\Roaming\Typora\typora-user-images\image-20201229172242157.png)
 
@@ -48,19 +52,19 @@
 
 ​	shell脚本编写的时候，如果在windows 上面编写上传到linux 服务器上面，可能会因为编码问题报错，改为unix格式即可
 
-### 6、并发请求错误查看
+### 7、并发请求错误查看
 
 ​	如果报错，先看并发请求得log，一般报错日志会写到 系统管理员下并发，管理，管理中的opp（输出处理程序）中，选中后，选择process，再选择manager log
 
 ![image-20201230143137848](C:\Users\72810\AppData\Roaming\Typora\typora-user-images\image-20201230143137848.png)
 
-### 7、注意事项
+### 8、注意事项
 
-#### 	7.1 请求报错
+#### 	8.1 请求报错
 
 ​	可能会报一个ref 未定义却被使用的错误，原因：下载过高版本的BI Publisher  解决办法：
 
-```
+```java
 o resolve the issue, test the following steps in a development instance and then migrate accordingly:
 
 1. On the "Build" tab, set "Backward Compatible" for "Form Field Size" for the BI Publisher Desktop Integrator
@@ -68,13 +72,17 @@ o resolve the issue, test the following steps in a development instance and then
 2. Retest the XML Publisher concurrent request and confirm the output is generated correctly.
 ```
 
-#### 	7.2 输出
+#### 	8.2 输出
 
 ​	增加输出文件的打开方式 系统管理员->安装->浏览器选项 添加对应的方式即可
 
 ​	设置默认查看方式    系统管理员->配置文件->系统->用户（输入当前用户）->配置文件查找%浏览%，再用户栏添加默认应用即可    （参考任务11）
 
-### 8、ebs管理器结构
+#### 8.3 office 加载  bipublisher 
+
+​	乱码，加载数据源报错message39  可能原因，不兼容，解决办法：卸载当前版本的bipublisher，安装32位的bipublisher
+
+### 9、ebs管理器结构
 
 ​	内部管理器：
 
@@ -89,3 +97,4 @@ cd $ADMIN_SCRIPTS_HOME
 ps -elf | grep FNDLIBR | grep -v grep |wc -l         FNDLIBR 是内部管理器的运行标识符        -v 排除grep字符，   wc -l 计数
 显示为0 后
 ./adcmctl.sh start apps/apps
+

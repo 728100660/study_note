@@ -131,3 +131,12 @@ redirect 使用的是全限定名路径，使用了redirect之后springmvc是不
 
 
 
+## 3、遇到的坑
+
+### 3.1 
+
+在公司发的电脑上面重新配置环境的时候
+
+报错：Artifact springmvc-01-use:war exploded: Error during artifact deployment.，然后点击了下面框出来的部分就能运行了
+
+![image-20210114153644574](C:\Users\72810\AppData\Roaming\Typora\typora-user-images\image-20210114153644574.png)

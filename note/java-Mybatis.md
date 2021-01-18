@@ -251,3 +251,115 @@ logImpl
 常用SLF4J
 
 ![image-20210103214619174](C:\Users\pxz\AppData\Roaming\Typora\typora-user-images\image-20210103214619174.png)
+
+### 8、一对多多对一
+
+​	一对多：在实体类中定义一个对应对象的list集合属性
+
+resultMap 结果集映射使用association
+
+​	多对一：在实体类中定义一个对应的单个对象
+
+resultMap 结果集映射使用collection
+
+```xml
+对应dao层中的mapper.xml配置文件
+<select id = "getTeacher" resultMap="TeacherStudent">
+    select s.id sid, s.name sname, t.name tname, t.id tid
+    from student s, teacher t
+    where s.tid = t.tid and t.tid = #{tid}
+</select>
+
+<resultMap id = "TeacherStudent" Type = "Teacher">
+	<result property="id" colum="tid"/>
+    <result property="name" colum = "tname"/>
+    <!--javaType = ""指定属性类型
+	集合中的泛型信息，我们使用ofTYPE获取
+	下面的students就是一对多的那个多的名字-->
+    <collection property="students" ofType="Student">		
+    	<result property="id" column="sid"/>		
+    	<result property="name" column="sname"/>		
+    	<result property="tid" column="tid"/>
+    </collection>
+</resultMap>
+```
+
+方法二
+
+![image-20210116130452155](C:\Users\72810\AppData\Roaming\Typora\typora-user-images\image-20210116130452155.png)
+
+```java
+return sqlSessionFactory.openSession(true);
+//默认开启自动提交事务
+```
+
+什么是缓存：
+
+- 放在内存中的临时数据
+- 将用户经常查询的数据放在内存（缓存）中，用户去查询数据就不用从磁盘上（关系型数据库文件）查询，从缓存中查询，从而提高查询效率，解决了高并发的系统的性能问题。
+
+为什么用缓存：
+
+- 减少和数据库的交互次数，减少系统开销，提高系统效率。
+
+什么样的数据适合使用缓存：
+
+- 经常查询并且不经常改变的数据。（相反则不适用缓存）
+
+
+
+### 9、Mybatis中的缓存
+
+```java
+return sqlSessionFactory.openSession(true);
+//默认开启自动提交事务
+```
+
+#### 1、一级缓存
+
+默认自动开启（也无法关闭）
+
+在一个sqlsession中缓存，SQL session被关闭（从拿到到关闭），缓存结束
+
+
+
+缓存失效：
+
+- 更新（增删改）数据库（无论更新谁都会倒是缓存失效），再次查询之前查询的东西，缓存会失效
+- 手动清除（SQL session.clearCache()）
+
+#### 2、二级缓存
+
+又叫全局缓存，基于namspace级别（在mapper.xml中，我们指定的那个namspace）的，在一个namespace中生效
+
+为了提高扩展性，Mybatis定义了缓存接口Cache，我们可以通过Cache接口来自定义二级缓存
+
+在mapper.xml中添加一个<cache/>开启缓存
+
+![image-20210117160254921](C:\Users\72810\AppData\Roaming\Typora\typora-user-images\image-20210117160254921.png)
+
+lru（）
+
+fifo（先入先出）
+
+
+
+一级缓存结束后，如果二级缓存开启了的 话，一级缓存的内容会被保存到二级缓存中
+
+开启日志（怎么开？）
+
+问题：
+
+- 我们需要将实体类序列化！否则会报错
+
+![image-20210117160703199](C:\Users\72810\AppData\Roaming\Typora\typora-user-images\image-20210117160703199.png)
+
+#### 3、小结：
+
+- 只要开启了二级缓存，在同一个Mapper下就有效
+- 所有的数据都会先放在一级缓存中；
+- 只有当会话提交，或者关闭的时候，才会提交到二级缓存中
+
+### ==问题==
+
+- 配置mybatis的配置文件的时候，将数据库的useUnicode 设置为false而不是true

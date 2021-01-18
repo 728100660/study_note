@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+<!--    类别名设置，扫描pojo包下的类，用小写的字母匹配-->
+    <typeAliases>
+        <package name="com.pxz.pojo"/>
+    </typeAliases>
+
+    <mappers>
+        <mapper resource="com/pxz/dao/UserMapper.xml"></mapper>
+    </mappers>
+</configuration>

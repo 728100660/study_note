@@ -129,6 +129,17 @@ redirect 使用的是全限定名路径，使用了redirect之后springmvc是不
 
 ​	添加moudle的时候，选择maven项目，创建的时候会自动从网络上下载很多插件，在properties 中添加一对键值对   archetypeCatalog： internal 即可快速创建maven项目
 
+### 2.2 导入json包（使用jackson）
+
+```xml
+<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
+<dependency>
+   <groupId>com.fasterxml.jackson.core</groupId>
+   <artifactId>jackson-databind</artifactId>
+   <version>2.9.8</version>
+</dependency>
+```
+
 
 
 ## 3、遇到的坑
@@ -140,3 +151,38 @@ redirect 使用的是全限定名路径，使用了redirect之后springmvc是不
 报错：Artifact springmvc-01-use:war exploded: Error during artifact deployment.，然后点击了下面框出来的部分就能运行了
 
 ![image-20210114153644574](C:\Users\72810\AppData\Roaming\Typora\typora-user-images\image-20210114153644574.png)
+
+### 3.2 ssm整合
+
+​	导入spring  pom.xml依赖的时候，要保证，spring依赖的版本号对应一致，不然在引用的时候可能会报错
+
+![image-20210115165818065](C:\Users\72810\AppData\Roaming\Typora\typora-user-images\image-20210115165818065.png)
+
+
+
+### 3.3 404 not found
+
+​	可能原因
+
+- lib包没导入
+
+- controller层没导入
+
+  解决，在mvc核心配置文件中
+
+  ```xml
+  <!--自动扫描包，让指定包下面的注解生效-->
+  <context:component-scan base-package="com.pxz.controller"/>
+  ```
+
+### 3.4 500错误
+
+sql error   Parameter index out of range (1 > number of parameters, which is 0)
+
+明确告诉你这是sql错误sql 写错了
+
+检查sql，在xml中，可能符号写错了，varchar做条件判断时不要加"",or '' 
+
+### 3.5 依赖包问题
+
+在项目创建之后，再新增包，一定要记得导入到项目的lib文件中 

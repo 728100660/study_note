@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace 一定不能忘记，要写对-->
+<mapper namespace="com.pxz.dao.UserMapper">
+
+<!--    增加一个用户-->
+<!--    因为配置了typeAlias，所以这里的parameterType可以直接写pojo类名，
+        否则要写完整路径-->
+    <insert id="addUser" parameterType="User">
+        insert into USERS values(#{id},#{name},#{pwd})
+    </insert>
+
+<!--    根据id删除一个用户-->
+    <delete id="deleteUser" parameterType="int">
+        delete from USERS where id=#{userId}
+    </delete>
+    
+<!--    根据id查询一个用户-->
+    <select id="queryOneUser" parameterType="int" resultType="User">
+        select * from USERS where id = #{userId}
+    </select>
+
+<!--    查询所有用户并返回-->
+    <select id="queryAllUser" resultType="User">
+        select * from mybatis.users
+    </select>
+
+<!--    更新用户-->
+    <update id="updateUser" parameterType="User">
+        update USERS set(pwd=#{pwd}) where id = #{id}
+    </update>
+
+    <select id="login" parameterType="map" resultType="User">
+        select * from users where
+            (ACCOUNT = #{userAccount} or
+            phone_number = #{userAccount} or
+            email = #{userAccount}) and
+            password = #{pwd}
+    </select>
+
+</mapper>

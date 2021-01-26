@@ -1,5 +1,6 @@
 package com.pxz.dao;
 
+import com.pxz.pojo.Article;
 import com.pxz.pojo.User;
 
 import java.util.List;

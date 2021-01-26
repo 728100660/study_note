@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace 一定不能忘记，要写对-->
+<mapper namespace="com.pxz.dao.ArticleMapper">
+
+    <!--查询所有发布的文章-->
+    <select id="getAllArticles" resultType="Article">
+        select * from mybatis.articles
+    </select>
+
+    <!--查询文章信息-->
+    <select id="getArticleInfo" parameterType="int" resultType="Article">
+        select * from mybatis.articles
+        where id = #{articleId}
+    </select>
+
+</mapper>

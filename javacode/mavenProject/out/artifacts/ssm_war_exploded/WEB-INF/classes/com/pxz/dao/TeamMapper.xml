@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace 一定不能忘记，要写对-->
+<mapper namespace="com.pxz.dao.TeamMapper">
+
+
+    <select id="getTeamInfo" parameterType="int" resultMap="TeamUser">
+        select * from mybatis.teams where id = #{teamId} or #{teamId} is null
+    </select>
+    
+    <resultMap id="TeamUser" type="Team">
+        <collection property="createBy" javaType="Team" select="getUser" column="id"></collection>
+<!--        <association property="createBy" javaType="Team" select="getUser" column="id"></association>-->
+    </resultMap>
+
+    <select id="getUser" resultType="User">
+        select * from mybatis.users where id = #{createBy}
+    </select>
+<!--    from mybatis.teams t, mybatis.users u1, mybatis.users u2, mybatis.users u3-->
+<!--    where t.id = u1.team_id and t.create_by = u2.id and t.leader = u3.id-->
+
+</mapper>

@@ -12,6 +12,7 @@
         <module>springmvc-01-use</module>
         <module>mybatis-01-use</module>
         <module>ssm</module>
+        <module>java-utils</module>
     </modules>
 
     <properties>

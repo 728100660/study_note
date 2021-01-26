@@ -1,5 +1,6 @@
 package com.pxz.service;
 
+import com.pxz.pojo.Article;
 import com.pxz.pojo.User;
 import org.apache.ibatis.binding.BindingException;
 import org.springframework.web.util.NestedServletException;
@@ -21,4 +22,5 @@ public interface UserService {
     int updateUser(User user);
 //    登录
     User login(Map<String,Object> map) throws BindingException;
+
 }

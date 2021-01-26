@@ -4,15 +4,15 @@ import java.util.Date;
 
 public class User {
     private int id;
-    private String phone_number;
+    private String phoneNumber;
     private String email;
     private String account;
     private String password;
-    private String user_name;
+    private String userName;
     private boolean role;
-    private int team_id;
-    private Date register_date;
-    private Date last_login_dat;
+    private int teamId;
+    private Date registerDate;
+    private Date lastLoginDate;
 
     public int getId() {
         return id;
@@ -22,12 +22,12 @@ public class User {
         this.id = id;
     }
 
-    public String getPhone_number() {
-        return phone_number;
+    public String getphoneNumber() {
+        return phoneNumber;
     }
 
-    public void setPhone_number(String phone_number) {
-        this.phone_number = phone_number;
+    public void setphoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getEmail() {
@@ -54,12 +54,12 @@ public class User {
         this.password = password;
     }
 
-    public String getUser_name() {
-        return user_name;
+    public String getuserName() {
+        return userName;
     }
 
-    public void setUser_name(String user_name) {
-        this.user_name = user_name;
+    public void setuserName(String userName) {
+        this.userName = userName;
     }
 
     public boolean isRole() {
@@ -70,43 +70,43 @@ public class User {
         this.role = role;
     }
 
-    public int getTeam_id() {
-        return team_id;
+    public int getteamId() {
+        return teamId;
     }
 
-    public void setTeam_id(int team_id) {
-        this.team_id = team_id;
+    public void setteamId(int teamId) {
+        this.teamId = teamId;
     }
 
-    public Date getRegister_date() {
-        return register_date;
+    public Date getregisterDate() {
+        return registerDate;
     }
 
-    public void setRegister_date(Date register_date) {
-        this.register_date = register_date;
+    public void setregisterDate(Date registerDate) {
+        this.registerDate = registerDate;
     }
 
-    public Date getLast_login_dat() {
-        return last_login_dat;
+    public Date getlastLoginDate() {
+        return lastLoginDate;
     }
 
-    public void setLast_login_dat(Date last_login_dat) {
-        this.last_login_dat = last_login_dat;
+    public void setlastLoginDate(Date lastLoginDate) {
+        this.lastLoginDate = lastLoginDate;
     }
 
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", phone_number='" + phone_number + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
                 ", email='" + email + '\'' +
                 ", account='" + account + '\'' +
                 ", password='" + password + '\'' +
-                ", user_name='" + user_name + '\'' +
+                ", userName='" + userName + '\'' +
                 ", role=" + role +
-                ", team_id=" + team_id +
-                ", register_date=" + register_date +
-                ", last_login_dat=" + last_login_dat +
+                ", teamId=" + teamId +
+                ", registerDate=" + registerDate +
+                ", lastLoginDate=" + lastLoginDate +
                 '}';
     }
 }

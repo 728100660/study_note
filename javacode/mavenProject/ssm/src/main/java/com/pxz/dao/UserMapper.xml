@@ -19,7 +19,7 @@
     
 <!--    根据id查询一个用户-->
     <select id="queryOneUser" parameterType="int" resultType="User">
-        select * from USERS where id = #{userId}
+        select * from mybatis.users where id = #{userId}
     </select>
 
 <!--    查询所有用户并返回-->
@@ -40,4 +40,9 @@
             password = #{pwd}
     </select>
 
+    <insert id="registerUser" parameterType="User">
+        insert into users(id, )
+    </insert>
+
+    
 </mapper>

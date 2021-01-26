@@ -14,6 +14,14 @@
         <property name="userMapper" ref="userMapper"/>
     </bean>
 
+    <bean id="ArticleServiceImpl" class="com.pxz.service.ArticleServiceImpl">
+        <property name="articleMapper" ref="articleMapper"/>
+    </bean>
+
+    <bean id="TeamServiceImpl" class="com.pxz.service.TeamServiceImpl">
+        <property name="teamMapper" ref="teamMapper"/>
+    </bean>
+
     <!-- 配置事务管理器 -->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <!-- 注入数据库连接池 -->

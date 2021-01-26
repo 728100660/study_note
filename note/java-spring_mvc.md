@@ -186,3 +186,27 @@ sql error   Parameter index out of range (1 > number of parameters, which is 0)
 ### 3.5 依赖包问题
 
 在项目创建之后，再新增包，一定要记得导入到项目的lib文件中 
+
+### 3.6 post传参问题
+
+参数传在body中，后台无法接收（网上说要加一个@Requestbody注解，但是加了之后报415错误，无法解决）
+
+参数要传在query中后台才能接收（就相当于get）
+
+### 3.7 命名
+
+数据库字段命名一般是user_name , 不符合驼峰命名规范，在select 要这么写
+
+```mysql
+selecet user_name userName from user;	
+```
+
+为了避免麻烦，在mybatis的配置文件中添加
+
+```xml
+<!--    mybatis开启驼峰命名规则-->
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+```
+

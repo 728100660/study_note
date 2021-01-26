@@ -6,9 +6,10 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="java-utils" />
+        <module name="mybatis-01-use" />
         <module name="ssm" />
         <module name="springmvc-01-use" />
-        <module name="mybatis-01-use" />
       </profile>
     </annotationProcessing>
   </component>

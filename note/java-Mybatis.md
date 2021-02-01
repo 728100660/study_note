@@ -286,6 +286,25 @@ resultMap 结果集映射使用collection
 
 方法二
 
+​	注意，其中column是要传递到子查询的参数字段，使用数据库里面的字段名，而不是驼峰命名
+
+```xml
+    
+column=create_by 而不是createBy，而下面的是createBy
+<resultMap id="TeamUser" type="Team">
+    <association property="createBy" javaType="Team" 				select="getCreateUser" column="create_by"/>
+    <association property="leader" javaType="Team" 					select="getLeaderUser" column="leader"/>
+</resultMap>
+
+<select id="getCreateUser" resultType="User">
+    select * from mybatis.users where id = #{createBy}
+</select>
+    
+<select id="getLeaderUser" resultType="User">
+    select * from mybatis.users where id = #{leader}
+</select>
+```
+
 ![image-20210116130452155](C:\Users\72810\AppData\Roaming\Typora\typora-user-images\image-20210116130452155.png)
 
 ```java
@@ -360,6 +379,28 @@ fifo（先入先出）
 - 所有的数据都会先放在一级缓存中；
 - 只有当会话提交，或者关闭的时候，才会提交到二级缓存中
 
+### 10、字符串拼接
+
+#### 1、 使用CONCAT 函数
+
+```sql
+SELECT * FROM user WHERE name LIKE CONCAT(CONCAT('%', #{name}), '%')
+```
+
+
+
+#### 2、 使用${ } 代替 #{ }
+
+因为${ }直接传入SQL，而#{ }传入的是字符串带有引号
+
+```sql
+SELECT * FROM user WHERE name LIKE '%${name}%'
+```
+
+
+
 ### ==问题==
 
 - 配置mybatis的配置文件的时候，将数据库的useUnicode 设置为false而不是true
+
+#### 注释：在mybatis中不能注释，否则会报错

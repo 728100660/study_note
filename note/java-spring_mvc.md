@@ -24,6 +24,10 @@ mvp, mvvm: m  v    vm(viewmodel)
 
 
 
+变量命名网站**Codelf**
+
+
+
 ### 0.1 创建项目步骤：
 
 1. 新建空白maven 项目
@@ -140,6 +144,23 @@ redirect 使用的是全限定名路径，使用了redirect之后springmvc是不
 </dependency>
 ```
 
+jackson的使用
+
+```java
+//        获取jackson对象
+        ObjectMapper mapper = new ObjectMapper();
+//        定义结果字符串
+        String res = null;
+        try {
+//            将需要json序列话的对象json序列化并保存到res字符串中
+            res = mapper.writeValueAsString(object);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+//        返回
+        return res;	
+```
+
 
 
 ## 3、遇到的坑
@@ -210,3 +231,10 @@ selecet user_name userName from user;
     </settings>
 ```
 
+### 3.8 传参报错问题
+
+​	 is present but cannot be translated into a null value due to being declared as a primitive type. Consider declaring it as object wrapper for the corresponding primitive type.
+
+​	可能问题：传参错误，后台未接受到正确的参数类型或者参数个数
+
+​	当让传参允许为空时，（在参数前添加@nullable装饰器的时候，好像不加也可以），参数类型应该定义为Integer之类的包装类，int类型不允许这么做。

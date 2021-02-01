@@ -5,15 +5,13 @@
 <!--namespace 一定不能忘记，要写对-->
 <mapper namespace="com.pxz.dao.ArticleMapper">
 
-    <!--查询所有发布的文章-->
-    <select id="getAllArticles" resultType="Article">
-        select * from mybatis.articles
-    </select>
 
     <!--查询文章信息-->
     <select id="getArticleInfo" parameterType="int" resultType="Article">
         select * from mybatis.articles
-        where id = #{articleId}
+        where id = #{articleId} or #{articleId} is null
+        and (title like('%${searchString}%') or #{searchString} is null)
+        and (content like('%${searchString}%') or #{searchString} is null)
     </select>
 
 </mapper>

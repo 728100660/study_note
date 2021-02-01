@@ -5,44 +5,59 @@
 <!--namespace 一定不能忘记，要写对-->
 <mapper namespace="com.pxz.dao.UserMapper">
 
-<!--    增加一个用户-->
-<!--    因为配置了typeAlias，所以这里的parameterType可以直接写pojo类名，
-        否则要写完整路径-->
-    <insert id="addUser" parameterType="User">
-        insert into USERS values(#{id},#{name},#{pwd})
-    </insert>
+    <!--    因为配置了typeAlias，所以这里的parameterType可以直接写pojo类名，
+            否则要写完整路径-->
 
-<!--    根据id删除一个用户-->
-    <delete id="deleteUser" parameterType="int">
-        delete from USERS where id=#{userId}
-    </delete>
-    
-<!--    根据id查询一个用户-->
-    <select id="queryOneUser" parameterType="int" resultType="User">
-        select * from mybatis.users where id = #{userId}
+    <!--    根据id删除一个用户-->
+    <update id="deleteUser" parameterType="int">
+        update mybatis.users
+        set effective_end_date = sysdate()
+        where user_id = #{userId}
+          and sysdate() in (effective_start_date, ifnull(effective_end_date, sysdate()))
+    </update>
+
+    <!--    根据id查询一个用户-->
+    <select id="getUser" parameterType="int" resultType="User">
+        select *
+        from mybatis.users
+        where sysdate() in (ifnull(effective_start_date, sysdate()), ifnull(effective_end_date, sysdate()))
+          and (user_id = #{userId} or #{userId} is null)
     </select>
 
-<!--    查询所有用户并返回-->
-    <select id="queryAllUser" resultType="User">
-        select * from mybatis.users
-    </select>
 
-<!--    更新用户-->
+    <!--    更新用户,失效用户-->
     <update id="updateUser" parameterType="User">
-        update USERS set(pwd=#{pwd}) where id = #{id}
+        update mybatis.users
+        set effective_end_date = sysdate()
+        where user_id = #{user_id}
+          and sysdate() in (ifnull(effective_start_date, sysdate()), ifnull(effective_end_date, sysdate()))
+        --         update insert mybatis.users
+--         set phone_number=#{phoneNumber}, email=#{email}, account=#{account}, password=#{password},
+--             user_name=#{userName}, role =#{role}, team_id=#{teamId}, register_date=#{registerDate},
+--             last_login_date = #{lastLoginDate}, effective_start_date=#{effectiveStartDate},
+--             effective_end_date=#{effectiveEndDate}, user_id=#{userId}
+--         where id = #{id}
     </update>
 
     <select id="login" parameterType="map" resultType="User">
-        select * from users where
-            (ACCOUNT = #{userAccount} or
-            phone_number = #{userAccount} or
-            email = #{userAccount}) and
-            password = #{pwd}
+        select *
+        from users
+        where (ACCOUNT = #{userAccount} or
+               phone_number = #{userAccount} or
+               email = #{userAccount})
+          and password = #{pwd}
     </select>
 
     <insert id="registerUser" parameterType="User">
-        insert into users(id, )
+        insert
+        into mybatis.users(phone_number, email, account, password, user_name, role, team_id, register_date,
+                           last_login_date, effective_start_date, effective_end_date, user_id)
+        values (#{phoneNumber}, #{email},
+                #{account}, #{password}, #{userName},
+                #{role}, #{teamId}, #{registerDate},
+                #{lastLoginDate}, #{effectiveStartDate},
+                #{effectiveEndDate}, #{userId})
     </insert>
 
-    
+
 </mapper>

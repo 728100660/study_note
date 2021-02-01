@@ -4,6 +4,7 @@ import com.pxz.dao.ArticleMapper;
 import com.pxz.pojo.Article;
 
 import java.util.List;
+import java.util.Map;
 
 public class ArticleServiceImpl implements ArticleService{
 
@@ -14,12 +15,7 @@ public class ArticleServiceImpl implements ArticleService{
     }
 
     @Override
-    public List<Article> getAllArticles() {
-        return articleMapper.getAllArticles();
-    }
-
-    @Override
-    public Article getArticleInfo(int id) {
-        return articleMapper.getArticleInfo(id);
+    public List<Article> getArticleInfo(Map<String,Object> map) {
+        return articleMapper.getArticleInfo(map);
     }
 }

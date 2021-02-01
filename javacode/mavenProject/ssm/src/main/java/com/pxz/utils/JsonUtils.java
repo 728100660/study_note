@@ -3,6 +3,8 @@ package com.pxz.utils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.IOException;
+
 public class JsonUtils {
     public static String getJson(Object object){
 //        获取jackson对象
@@ -17,5 +19,19 @@ public class JsonUtils {
         }
 //        返回
         return res;
+    }
+
+    public static Object jsonToObj(String str, Object obj){
+        /**好像不能用**/
+        ObjectMapper mapper = new ObjectMapper();
+
+        Object result = null;
+        try {
+            result = mapper.readValue(str, obj.getClass());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return result;
     }
 }

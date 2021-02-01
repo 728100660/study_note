@@ -22,6 +22,10 @@
         <property name="teamMapper" ref="teamMapper"/>
     </bean>
 
+    <bean id="NoticeServiceImpl" class="com.pxz.service.NoticeServiceImpl">
+        <property name="noticeMapper" ref="noticeMapper"/>
+    </bean>
+
     <!-- 配置事务管理器 -->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <!-- 注入数据库连接池 -->

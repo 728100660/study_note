@@ -10,17 +10,14 @@ import java.util.Map;
 
 public interface UserService {
 //    实现的时候底层是调用的UserMapper的接口
-//    增加一个用户
-    int addUser(User user);
-//查询一个用户
-    User queryOneUser(int userId);
-//查询所有用户
-    List<User> queryAllUser();
+//查询用户,userId可以不传，不传参的时候查询所有
+    List<User> getUser(Integer userId);
 //删除一个用户
     int deleteUser(int userId);
-//更新一个用户
+//更新一个用户,更新的是有效时间，将老的数据失效，再插入一条新的数据
     int updateUser(User user);
 //    登录
     User login(Map<String,Object> map) throws BindingException;
-
+//    注册用户
+    int registerUser(User user);
 }

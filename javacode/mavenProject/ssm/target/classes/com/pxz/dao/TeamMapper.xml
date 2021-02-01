@@ -7,18 +7,60 @@
 
 
     <select id="getTeamInfo" parameterType="int" resultMap="TeamUser">
-        select * from mybatis.teams where id = #{teamId} or #{teamId} is null
+        select *
+        from mybatis.teams
+        where (id = #{teamId} or #{teamId} is null)
+          and ifnull(is_delete, 0) = 0
+        and (location like('%${searchString}%') or #{searchString} is null)
+        and (belong_to like('%${searchString}%') or #{searchString} is null)
+        and (introduce like('%${searchString}%') or #{searchString} is null)
+        and (phone_number like('%${searchString}%') or #{searchString} is null)
+        and (email like('%${searchString}%') or #{searchString} is null)
     </select>
-    
+
     <resultMap id="TeamUser" type="Team">
-        <collection property="createBy" javaType="Team" select="getUser" column="id"></collection>
-<!--        <association property="createBy" javaType="Team" select="getUser" column="id"></association>-->
+        <!--        <collection property="createBy" javaType="List" ofType="Team" select="getUser" column="id"></collection>-->
+        <association property="createBy" javaType="User" select="getCreateUser" column="create_by"></association>
+        <association property="leader" javaType="User" select="getLeaderUser" column="leader"></association>
     </resultMap>
 
-    <select id="getUser" resultType="User">
-        select * from mybatis.users where id = #{createBy}
+    <select id="getCreateUser" parameterType="int" resultType="User">
+        select *
+        from mybatis.users
+        where id = #{createBy}
     </select>
-<!--    from mybatis.teams t, mybatis.users u1, mybatis.users u2, mybatis.users u3-->
-<!--    where t.id = u1.team_id and t.create_by = u2.id and t.leader = u3.id-->
+
+    <select id="getLeaderUser" parameterType="int" resultType="User">
+        select *
+        from mybatis.users
+        where id = #{leader}
+    </select>
+
+
+    <insert id="addTeamMenmber" parameterType="map">
+        insert into mybatis.team_number(team_id, user_id, role_code)
+        values (#{teamId}, #{userId}, #{roleCode})
+    </insert>
+    <!--    from mybatis.teams t, mybatis.users u1, mybatis.users u2, mybatis.users u3-->
+    <!--    where t.id = u1.team_id and t.create_by = u2.id and t.leader = u3.id-->
+
+    <delete id="deleteTeamMember" parameterType="map">
+        delete
+        from mybatis.team_number
+        where team_id = #{teamId}
+          and (user_id = #{userId} or #{userId} is null)
+    </delete>
+
+    <insert id="registerTeam" parameterType="TeamRegister">
+        insert into mybatis.teams(create_date, create_by, location, belong_to, leader, introduce, phone_number, email)
+        values (sysdate(), #{createBy}, #{location}, #{belongTO}, #{leader}, #{introduce}, #{phoneNumber}, email)
+    </insert>
+
+    <update id="deleteTeam" parameterType="int">
+        update mybatis.teams
+        set is_delete   = 1,
+            delete_date = sysdate()
+        where id = #{teamId}
+    </update>
 
 </mapper>

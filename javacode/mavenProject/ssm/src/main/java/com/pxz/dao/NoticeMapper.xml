@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace 一定不能忘记，要写对-->
+<mapper namespace="com.pxz.dao.NoticeMapper">
+
+    <insert id="createNoticeHeader" parameterType="NoticeCreater">
+        insert into notice_headers(create_by, team_id, place, date, content, create_date)
+        values (#{createBy}, #{teamId}, #{place}, #{date}, #{content}, sysdate())
+    </insert>
+
+    <insert id="createNoticeLine" parameterType="map">
+        insert into notice_lines(notice_id, user_id)
+        values (#{noticeId}, #{userId})
+    </insert>
+
+    <update id="receiveNoticeLine" parameterType="map">
+        update notice_lines
+        set received=1
+        where user_id = #{userId}
+          and notice_id = #{noticeId}
+    </update>
+
+    <update id="deleteNoticeLine" parameterType="map">
+        update notice_lines
+        set is_delete = 1
+        where user_id = #{userId}
+          and notice_id = #{noticeId}
+    </update>
+
+    <select id="getNotices" parameterType="map" resultMap="LineToHeader">
+        select *
+        from mybatis.notice_lines
+        where user_id = #{userId}
+    </select>
+    <resultMap id="LineToHeader" type="NoticeLine">
+        <association property="noticeId" javaType="NoticeHeader" column="notice_id" select="getNoticeHeaderById"></association>
+    </resultMap>
+    <select id="getNoticeHeaderById" resultMap="NoticeUser">
+        select * from mybatis.notice_headers
+        where content = #{noticeId}
+          and 1 = 1
+    </select>
+
+
+    <select id="getNoticesCreated" parameterType="int" resultMap="NoticeUser">
+        select *
+        from mybatis.notice_headers nh
+        where nh.create_by = #{createBy}
+    </select>
+    <resultMap id="NoticeUser" type="NoticeHeader">
+        <association property="createBy" javaType="User" select="getUser" column="create_by"/>
+    </resultMap>
+    <select id="getUser" resultType="User">
+        select *
+        from mybatis.users
+        where user_id = #{createBy}
+          and sysdate() in (ifnull(effective_start_date, sysdate()), ifnull(effective_end_date, sysdate()))
+    </select>
+
+</mapper>

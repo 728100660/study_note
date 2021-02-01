@@ -8,29 +8,20 @@ import com.pxz.pojo.User;
 import java.util.List;
 import java.util.Map;
 
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     //调用dao层的操作，设置一个set接口，方便Spring管理
     private UserMapper userMapper;
 
-    public void setUserMapper(UserMapper userMapper){
+    public void setUserMapper(UserMapper userMapper) {
         this.userMapper = userMapper;
     }
 
     @Override
-    public int addUser(User user) {
-        return userMapper.addUser(user);
+    public List<User> getUser(Integer userId) {
+        return userMapper.getUser(userId);
     }
 
-    @Override
-    public User queryOneUser(int userId) {
-        return userMapper.queryOneUser(userId);
-    }
-
-    @Override
-    public List<User> queryAllUser() {
-        return userMapper.queryAllUser();
-    }
 
     @Override
     public int deleteUser(int userId) {
@@ -39,12 +30,17 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public int updateUser(User user) {
-        return 0;
+        return userMapper.updateUser(user);
     }
 
     @Override
     public User login(Map<String, Object> map) {
         return userMapper.login(map);
+    }
+
+    @Override
+    public int registerUser(User user) {
+        return userMapper.registerUser(user);
     }
 
 

@@ -7,15 +7,14 @@ import java.util.List;
 import java.util.Map;
 
 public interface UserMapper {
-    int addUser(User user);
 
-    User queryOneUser(int userId);
-
-    List<User> queryAllUser();
+    List<User> getUser(Integer userId);
 
     int deleteUser(int userId);
 
     int updateUser(User user);
 
     User login(Map<String,Object> map);
+
+    int registerUser(User user);
 }

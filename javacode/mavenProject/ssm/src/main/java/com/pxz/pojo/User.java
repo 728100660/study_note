@@ -13,6 +13,36 @@ public class User {
     private int teamId;
     private Date registerDate;
     private Date lastLoginDate;
+    private Date effectiveStartDate;
+    private Date effectiveEndDate;
+    private int userId;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", email='" + email + '\'' +
+                ", account='" + account + '\'' +
+                ", password='" + password + '\'' +
+                ", userName='" + userName + '\'' +
+                ", role=" + role +
+                ", teamId=" + teamId +
+                ", registerDate=" + registerDate +
+                ", lastLoginDate=" + lastLoginDate +
+                ", effectiveStartDate=" + effectiveStartDate +
+                ", effectiveEndDate=" + effectiveEndDate +
+                ", userId=" + userId +
+                '}';
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 
     public int getId() {
         return id;
@@ -22,11 +52,11 @@ public class User {
         this.id = id;
     }
 
-    public String getphoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setphoneNumber(String phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
@@ -54,11 +84,11 @@ public class User {
         this.password = password;
     }
 
-    public String getuserName() {
+    public String getUserName() {
         return userName;
     }
 
-    public void setuserName(String userName) {
+    public void setUserName(String userName) {
         this.userName = userName;
     }
 
@@ -70,43 +100,43 @@ public class User {
         this.role = role;
     }
 
-    public int getteamId() {
+    public int getTeamId() {
         return teamId;
     }
 
-    public void setteamId(int teamId) {
+    public void setTeamId(int teamId) {
         this.teamId = teamId;
     }
 
-    public Date getregisterDate() {
+    public Date getRegisterDate() {
         return registerDate;
     }
 
-    public void setregisterDate(Date registerDate) {
+    public void setRegisterDate(Date registerDate) {
         this.registerDate = registerDate;
     }
 
-    public Date getlastLoginDate() {
+    public Date getLastLoginDate() {
         return lastLoginDate;
     }
 
-    public void setlastLoginDate(Date lastLoginDate) {
+    public void setLastLoginDate(Date lastLoginDate) {
         this.lastLoginDate = lastLoginDate;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", email='" + email + '\'' +
-                ", account='" + account + '\'' +
-                ", password='" + password + '\'' +
-                ", userName='" + userName + '\'' +
-                ", role=" + role +
-                ", teamId=" + teamId +
-                ", registerDate=" + registerDate +
-                ", lastLoginDate=" + lastLoginDate +
-                '}';
+    public Date getEffectiveStartDate() {
+        return effectiveStartDate;
+    }
+
+    public void setEffectiveStartDate(Date effectiveStartDate) {
+        this.effectiveStartDate = effectiveStartDate;
+    }
+
+    public Date getEffectiveEndDate() {
+        return effectiveEndDate;
+    }
+
+    public void setEffectiveEndDate(Date effectiveEndDate) {
+        this.effectiveEndDate = effectiveEndDate;
     }
 }

@@ -1,31 +1,37 @@
 package com.pxz.pojo;
 
+import java.util.Date;
+
 public class Article {
-    private int id;
+    private int articleID;
     private int createBy;
     private int teamId;
     private String title;
     private String content;
     private boolean isDelete;
+    private Date createDate;
+    private Date lastChangeDate;
 
     @Override
     public String toString() {
         return "Article{" +
-                "id=" + id +
+                "articleID=" + articleID +
                 ", createBy=" + createBy +
                 ", teamId=" + teamId +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", isDelete=" + isDelete +
+                ", createDate=" + createDate +
+                ", lastChangeDate=" + lastChangeDate +
                 '}';
     }
 
-    public int getId() {
-        return id;
+    public int getArticleID() {
+        return articleID;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setArticleID(int articleID) {
+        this.articleID = articleID;
     }
 
     public int getCreateBy() {
@@ -66,5 +72,21 @@ public class Article {
 
     public void setDelete(boolean delete) {
         isDelete = delete;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Date getLastChangeDate() {
+        return lastChangeDate;
+    }
+
+    public void setLastChangeDate(Date lastChangeDate) {
+        this.lastChangeDate = lastChangeDate;
     }
 }

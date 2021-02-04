@@ -29,18 +29,54 @@
           and notice_id = #{noticeId}
     </update>
 
-    <select id="getNotices" parameterType="map" resultMap="LineToHeader">
-        select *
-        from mybatis.notice_lines
-        where user_id = #{userId}
-    </select>
-    <resultMap id="LineToHeader" type="NoticeLine">
-        <association property="noticeId" javaType="NoticeHeader" column="notice_id" select="getNoticeHeaderById"></association>
-    </resultMap>
-    <select id="getNoticeHeaderById" resultMap="NoticeUser">
-        select * from mybatis.notice_headers
-        where content = #{content}
-    </select>
+<!--    <select id="getNotices" parameterType="map" resultMap="NoticeLineHeader">-->
+<!--        select nh.id hid,-->
+<!--               nh.create_by createBy,-->
+<!--               nh.team_id tid,-->
+<!--               nh.place place,-->
+<!--               nh.date date ,-->
+<!--               nh.content content,-->
+<!--               nh.create_date create_date,-->
+<!--               nl.id lid,-->
+<!--               nl.user_id uid,-->
+<!--               nl.received-->
+<!--        from mybatis.notice_lines nl,-->
+<!--             mybatis.notice_headers nh-->
+<!--        where nh.id = nl.notice_id-->
+<!--          and nl.user_id = #{userId}-->
+<!--          and (nh.place like ('%${searchString}%') or #{searchString} is null)-->
+<!--          and (nh.content like ('%${searchString}%') or #{searchString} is null)-->
+<!--    </select>-->
+<!--    <resultMap id="NoticeLineHeader" type="NoticeLine">-->
+<!--        <result property="id" column="lid"/>-->
+<!--        <result property="userId" column="uid"/>-->
+<!--        <result property="received" column="received"/>-->
+<!--        <association property="noticeId" javaType="NoticeHeader">-->
+<!--            <result property="id" column="hid"/>-->
+<!--            <result property="createBy" column="createBy"/>-->
+<!--            <result property="teamId" column="team_id"/>-->
+<!--            <result property="place" column="place"/>-->
+<!--            <result property="date" column="date"/>-->
+<!--            <result property="content" column="content"/>-->
+<!--            <result property="createDate" column="create_date"/>-->
+<!--        </association>-->
+<!--&lt;!&ndash;        <result property="notice_id" column="hid"/>&ndash;&gt;-->
+
+<!--    </resultMap>-->
+
+
+        <select id="getNotices" parameterType="map" resultMap="LineToHeader">
+            select *
+            from mybatis.notice_lines
+            where user_id = #{userId}
+        </select>
+        <resultMap id="LineToHeader" type="NoticeLine">
+            <association property="noticeId" javaType="NoticeHeader" column="{noticeId=notice_id}" select="getNoticeHeaderById"></association>
+        </resultMap>
+        <select id="getNoticeHeaderById" resultMap="NoticeUser">
+            select * from mybatis.notice_headers
+            where id = #{noticeId}
+        </select>
 
 
     <select id="getNoticesCreated" parameterType="int" resultMap="NoticeUser">

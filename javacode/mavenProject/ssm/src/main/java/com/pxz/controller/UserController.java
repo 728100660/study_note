@@ -2,10 +2,7 @@ package com.pxz.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pxz.pojo.*;
-import com.pxz.service.ArticleService;
-import com.pxz.service.NoticeService;
-import com.pxz.service.TeamService;
-import com.pxz.service.UserService;
+import com.pxz.service.*;
 import com.pxz.utils.JsonUtils;
 import com.pxz.utils.ResultUtils;
 import org.apache.ibatis.annotations.Param;
@@ -42,6 +39,11 @@ public class UserController {
     @Autowired
     @Qualifier("NoticeServiceImpl")
     private NoticeService noticeService;
+
+
+    @Autowired
+    @Qualifier("CommentServiceImpl")
+    private CommentService commentService;
 
     @ResponseBody
     @RequestMapping("/test")
@@ -396,6 +398,124 @@ public class UserController {
         List<NoticeHeader> data = null;
 
         data = noticeService.getNoticesCreated(createBy);
+
+        Map tmpResult = ResultUtils.getResult(data, code);
+
+        String result = JsonUtils.getJson(tmpResult);
+
+        return result;
+    }
+
+
+    @ResponseBody
+    @RequestMapping("/createArticle")
+    public String createArticle(Article article){
+
+        int date = 0, code = 0;
+
+        int data = articleService.createArticle(article);
+
+        Map tmpResult = ResultUtils.getResult(data, code);
+
+        String result = JsonUtils.getJson(tmpResult);
+
+        return result;
+    }
+
+
+    @ResponseBody
+    @RequestMapping("/updateArticle")
+    public String updateArticle(Article article){
+
+        int date = 0, code = 0;
+
+        int data = articleService.updateArticle(article);
+
+        Map tmpResult = ResultUtils.getResult(data, code);
+
+        String result = JsonUtils.getJson(tmpResult);
+
+        return result;
+    }
+
+
+    @ResponseBody
+    @RequestMapping("/deleteArticle")
+    public String deleteArticle(@Param("articleId") int articleId){
+
+        int date = 0, code = 0;
+
+        int data = articleService.deleteArticle(articleId);
+
+        Map tmpResult = ResultUtils.getResult(data, code);
+
+        String result = JsonUtils.getJson(tmpResult);
+
+        return result;
+    }
+
+
+    @ResponseBody
+    @RequestMapping("/getArticleComment")
+    public String getComment(@Param("articleId")int articleId){
+
+        int date = 0, code = 0;
+
+        Comment data = null;
+
+        data = commentService.getComment(articleId);
+
+        Map tmpResult = ResultUtils.getResult(data, code);
+
+        String result = JsonUtils.getJson(tmpResult);
+
+        return result;
+    }
+
+
+    @ResponseBody
+    @RequestMapping("/getSubComment")
+    public String getSubComment(@Param("commentId") int commentId){
+
+        int code = 0;
+
+        List<Comment> comments = null;
+
+        comments = commentService.getSubComment(commentId);
+
+        Map tmpResult = ResultUtils.getResult(comments, code);
+
+        String result = JsonUtils.getJson(tmpResult);
+
+        return result;
+    }
+
+
+    @ResponseBody
+    @RequestMapping("/doComment")
+    public String doComment(@Param("comment") Comment comment){
+
+        int data = 0, code = 0;
+
+
+        data = commentService.doComment(comment);
+
+        Map tmpResult = ResultUtils.getResult(data, code);
+
+        String result = JsonUtils.getJson(tmpResult);
+
+        return result;
+    }
+
+
+    @ResponseBody
+    @RequestMapping("/deleteComment")
+    public String deleteComment(@Param("commentId") int commentId){
+
+        int data = 0, code = 0;
+
+
+        data = commentService.deleteComment(commentId);
 
         Map tmpResult = ResultUtils.getResult(data, code);
 

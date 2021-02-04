@@ -292,7 +292,7 @@ resultMap 结果集映射使用collection
     
 column=create_by 而不是createBy，而下面的是createBy
 <resultMap id="TeamUser" type="Team">
-    <association property="createBy" javaType="Team" 				select="getCreateUser" column="create_by"/>
+    <association property="createBy" javaType="Team" 				select="getCreateUser" column="{createBy=create_by}"/>
     <association property="leader" javaType="Team" 					select="getLeaderUser" column="leader"/>
 </resultMap>
 
@@ -303,6 +303,18 @@ column=create_by 而不是createBy，而下面的是createBy
 <select id="getLeaderUser" resultType="User">
     select * from mybatis.users where id = #{leader}
 </select>
+```
+
+```xml
+在resultmap中，向select传递多个参数
+<resultMap id="LineToHeader" type="NoticeLine">
+        <association property="noticeId" javaType="NoticeHeader" column="{noticeId=notice_id,userId=user_id}" select="getNoticeHeaderById"></association>
+    </resultMap>
+    <select id="getNoticeHeaderById" resultMap="NoticeUser">
+        select * from mybatis.notice_headers
+        where id = #{noticeId} and user_id = userId
+          and 1 = 1
+    </select>
 ```
 
 ![image-20210116130452155](C:\Users\72810\AppData\Roaming\Typora\typora-user-images\image-20210116130452155.png)
@@ -403,4 +415,22 @@ SELECT * FROM user WHERE name LIKE '%${name}%'
 
 - 配置mybatis的配置文件的时候，将数据库的useUnicode 设置为false而不是true
 
-#### 注释：在mybatis中不能注释，否则会报错
+#### （1）注释：
+
+在mybatis中不能注释，否则会报错
+
+#### （2）resultMap
+
+造成的原因是<resultMap>标签中
+
+需要按照	
+
+<id>
+
+<result>
+
+<association>
+
+<collection>
+
+顺序来排列

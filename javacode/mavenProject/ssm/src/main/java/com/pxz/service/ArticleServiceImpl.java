@@ -18,4 +18,19 @@ public class ArticleServiceImpl implements ArticleService{
     public List<Article> getArticleInfo(Map<String,Object> map) {
         return articleMapper.getArticleInfo(map);
     }
+
+    @Override
+    public int createArticle(Article article) {
+        return articleMapper.createArticle(article);
+    }
+
+    @Override
+    public int updateArticle(Article article) {
+        return articleMapper.updateArticle(article);
+    }
+
+    @Override
+    public int deleteArticle(int articleId) {
+        return articleMapper.deleteArticle(articleId);
+    }
 }

@@ -8,4 +8,10 @@ import java.util.Map;
 public interface ArticleMapper {
 
     List<Article> getArticleInfo(Map<String,Object> map);
+
+    int createArticle(Article article);
+
+    int updateArticle(Article article);
+
+    int deleteArticle(int articleId);
 }

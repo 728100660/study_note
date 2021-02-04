@@ -9,6 +9,7 @@ public class Comment {
     private String varchar;
     private Date createDate;
     private int superiorCommentId;
+    private boolean is_delete;
 
     @Override
     public String toString() {
@@ -19,6 +20,7 @@ public class Comment {
                 ", varchar='" + varchar + '\'' +
                 ", createDate=" + createDate +
                 ", superiorCommentId=" + superiorCommentId +
+                ", is_delete=" + is_delete +
                 '}';
     }
 
@@ -68,5 +70,13 @@ public class Comment {
 
     public void setSuperiorCommentId(int superiorCommentId) {
         this.superiorCommentId = superiorCommentId;
+    }
+
+    public boolean isIs_delete() {
+        return is_delete;
+    }
+
+    public void setIs_delete(boolean is_delete) {
+        this.is_delete = is_delete;
     }
 }

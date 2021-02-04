@@ -1,11 +1,11 @@
-package com.pxz.dao;
+package com.pxz.service;
 
 import com.pxz.pojo.Comment;
 
 import java.util.List;
 
-public interface CommentMapper {
-    Comment getComment(int articleId);
+public interface CommentService {
+    public Comment getComment(int articleId);
 
     List<Comment> getSubComment(int commentId);
 

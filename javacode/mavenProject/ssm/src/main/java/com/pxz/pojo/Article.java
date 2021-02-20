@@ -3,7 +3,7 @@ package com.pxz.pojo;
 import java.util.Date;
 
 public class Article {
-    private int articleID;
+    private int articleId;
     private int createBy;
     private int teamId;
     private String title;
@@ -15,7 +15,7 @@ public class Article {
     @Override
     public String toString() {
         return "Article{" +
-                "articleID=" + articleID +
+                "articleId=" + articleId +
                 ", createBy=" + createBy +
                 ", teamId=" + teamId +
                 ", title='" + title + '\'' +
@@ -26,12 +26,12 @@ public class Article {
                 '}';
     }
 
-    public int getArticleID() {
-        return articleID;
+    public int getarticleId() {
+        return articleId;
     }
 
-    public void setArticleID(int articleID) {
-        this.articleID = articleID;
+    public void setarticleId(int articleId) {
+        this.articleId = articleId;
     }
 
     public int getCreateBy() {

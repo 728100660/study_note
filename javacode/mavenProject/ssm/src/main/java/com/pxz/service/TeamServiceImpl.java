@@ -2,6 +2,8 @@ package com.pxz.service;
 
 import com.pxz.dao.TeamMapper;
 import com.pxz.pojo.Team;
+import com.pxz.pojo.TeamRegister;
+import com.pxz.pojo.User;
 
 import java.util.List;
 import java.util.Map;
@@ -26,13 +28,23 @@ public class TeamServiceImpl implements TeamService{
     }
 
     @Override
-    public int registerTeam(Team team) {
+    public int registerTeam(TeamRegister team) {
         return teamMapper.registerTeam(team);
     }
 
     @Override
     public int deleteTeam(int teamId) {
         return teamMapper.deleteTeam(teamId);
+    }
+
+    @Override
+    public int getCurTeamId() {
+        return teamMapper.getCurTeamId();
+    }
+
+    @Override
+    public List<User> getTeamMember(int teamId) {
+        return teamMapper.getTeamMember(teamId);
     }
 
     public void setTeamMapper(TeamMapper teamMapper) {

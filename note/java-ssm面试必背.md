@@ -34,7 +34,9 @@ Spring Mvc Framework 有这样一些特点
 
 ### 6、Spring在ssm中的作用
 
-Spring 是一个轻量级的框架，是一个ioc/di容器，Spring从实质上来讲就是一个bean工厂，主要用来维护和管理bean的生命周期和框架的集成。**Spring 的顶层容器为BeanFactory，常用的ApplicationContext为他的常用子接口**，关于spring，最重要的就是ioc（控制反转）和AOP
+Spring 是一个轻量级的框架，是一个ioc/di容器，Spring从实质上来讲就是一个bean工厂，主要用来维护和管理bean的生命周期和框架的集成，并且能够降低对象的耦合度，让代码更加清晰。
+
+**Spring 的顶层容器为BeanFactory，常用的ApplicationContext为他的常用子接口**，关于spring，最重要的就是ioc（控制反转）和AOP
 
 ### 7、怎样理解IOC和DI
 

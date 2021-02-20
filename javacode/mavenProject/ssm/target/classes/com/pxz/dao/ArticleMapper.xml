@@ -14,19 +14,20 @@
            or #{articleId} is null
             and (title like ('%${searchString}%') or #{searchString} is null)
             and (content like ('%${searchString}%') or #{searchString} is null)
+            and (is_delete = 0 or is_delete is null)
     </select>
 
     <insert id="createArticle" parameterType="Article">
-        insert into mybaits.articles(create_by, team_id, title, content, create_date, last_change_date)
+        insert into mybatis.articles(create_by, team_id, title, content, create_date, last_change_date)
         values (#{createBy}, #{teamId}, #{title}, #{content}, sysdate(), sysdate())
     </insert>
 
 
     <update id="updateArticle" parameterType="Article">
-        update mybaits.articles
+        update mybatis.articles
         set title            = #{title},
             content          = #{content},
-            last_change_date = #{lastChangeDate}
+            last_change_date = sysdate()
         where id = #{articleId}
     </update>
 

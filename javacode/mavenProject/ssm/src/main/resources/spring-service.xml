@@ -2,10 +2,13 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
    http://www.springframework.org/schema/beans/spring-beans.xsd
    http://www.springframework.org/schema/context
-   http://www.springframework.org/schema/context/spring-context.xsd">
+   http://www.springframework.org/schema/context/spring-context.xsd
+   http://www.springframework.org/schema/aop
+   http://www.springframework.org/schema/aop/spring-aop.xsd">
     <!-- 扫描service相关的bean -->
     <context:component-scan base-package="com.pxz.service" />
 
@@ -35,4 +38,22 @@
         <!-- 注入数据库连接池 -->
         <property name="dataSource" ref="dataSource" />
     </bean>
+
+
+
+<!--    方式一：使用spring 接口实现aop-->
+<!--    <bean id="authorityJudge" class="com.pxz.aop.AuthorityJudge"/>-->
+<!--    <aop:config>-->
+<!--        <aop:pointcut id="judgePointCut" expression="execution(* com.pxz.controller.*.*(..))"/>-->
+<!--        <aop:advisor advice-ref="authorityJudge" pointcut-ref="judgePointCut"/>-->
+<!--    </aop:config>-->
+
+
+<!--    方式二： 使用注解实现aop-->
+    <bean id="authorityJudge" class="com.pxz.aop.AuthorityJudge"/>
+<!--    开启注解支持-->
+    <aop:aspectj-autoproxy/>
+
+
+
 </beans>

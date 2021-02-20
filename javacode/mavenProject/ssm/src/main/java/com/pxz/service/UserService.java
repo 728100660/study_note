@@ -20,4 +20,13 @@ public interface UserService {
     User login(Map<String,Object> map) throws BindingException;
 //    注册用户
     int registerUser(User user);
+
+    //    账户是否已经存在
+    int hasUser(Map<String,Object> map);
+
+    //    更新用户，插入新的用户信息
+    int insertNewUser(User user);
+
+    //    根据角色id获取角色权限，0是学生， 1 是老师
+    int getRole(int userId);
 }

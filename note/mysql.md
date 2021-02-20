@@ -6,3 +6,4 @@ select database();
 alter table user modify id integer auto_increment;
 ```
 
+mysql中没有序列，要实现序列，通过建立一张序列表

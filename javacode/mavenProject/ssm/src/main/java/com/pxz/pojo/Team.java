@@ -12,6 +12,9 @@ public class Team {
     private String introduce;
     private String phoneNumber;
     private String email;
+    private String is_delete;
+    private Date delete_date;
+    private String teamName;
 
     @Override
     public String toString() {
@@ -25,7 +28,18 @@ public class Team {
                 ", introduce='" + introduce + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", email='" + email + '\'' +
+                ", is_delete='" + is_delete + '\'' +
+                ", delete_date=" + delete_date +
+                ", teamName='" + teamName + '\'' +
                 '}';
+    }
+
+    public String getTeamName() {
+        return teamName;
+    }
+
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
     }
 
     public int getId() {
@@ -98,5 +112,21 @@ public class Team {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getIs_delete() {
+        return is_delete;
+    }
+
+    public void setIs_delete(String is_delete) {
+        this.is_delete = is_delete;
+    }
+
+    public Date getDelete_date() {
+        return delete_date;
+    }
+
+    public void setDelete_date(Date delete_date) {
+        this.delete_date = delete_date;
     }
 }

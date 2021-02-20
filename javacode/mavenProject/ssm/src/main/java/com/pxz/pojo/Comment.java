@@ -4,23 +4,23 @@ import java.util.Date;
 
 public class Comment {
     private int id;
-    private int createby;
+    private int createBy;
     private int articleId;
-    private String varchar;
+    private String content;
     private Date createDate;
     private int superiorCommentId;
-    private boolean is_delete;
+    private boolean isDelete;
 
     @Override
     public String toString() {
         return "Comment{" +
                 "id=" + id +
-                ", createby=" + createby +
+                ", createBy=" + createBy +
                 ", articleId=" + articleId +
-                ", varchar='" + varchar + '\'' +
+                ", content='" + content + '\'' +
                 ", createDate=" + createDate +
                 ", superiorCommentId=" + superiorCommentId +
-                ", is_delete=" + is_delete +
+                ", isDelete=" + isDelete +
                 '}';
     }
 
@@ -32,12 +32,12 @@ public class Comment {
         this.id = id;
     }
 
-    public int getCreateby() {
-        return createby;
+    public int getcreateBy() {
+        return createBy;
     }
 
-    public void setCreateby(int createby) {
-        this.createby = createby;
+    public void setcreateBy(int createBy) {
+        this.createBy = createBy;
     }
 
     public int getArticleId() {
@@ -48,12 +48,12 @@ public class Comment {
         this.articleId = articleId;
     }
 
-    public String getVarchar() {
-        return varchar;
+    public String getcontent() {
+        return content;
     }
 
-    public void setVarchar(String varchar) {
-        this.varchar = varchar;
+    public void setcontent(String content) {
+        this.content = content;
     }
 
     public Date getCreateDate() {
@@ -72,11 +72,11 @@ public class Comment {
         this.superiorCommentId = superiorCommentId;
     }
 
-    public boolean isIs_delete() {
-        return is_delete;
+    public boolean isisDelete() {
+        return isDelete;
     }
 
-    public void setIs_delete(boolean is_delete) {
-        this.is_delete = is_delete;
+    public void setisDelete(boolean isDelete) {
+        this.isDelete = isDelete;
     }
 }

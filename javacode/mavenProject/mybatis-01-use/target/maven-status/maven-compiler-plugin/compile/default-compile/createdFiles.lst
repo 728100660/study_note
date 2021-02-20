@@ -1,0 +1,3 @@
+com\pxz\utils\MybatisUtils.class
+com\pxz\dao\User.class
+com\pxz\dao\UserMapper.class

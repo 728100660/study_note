@@ -1,6 +1,7 @@
 package com.pxz.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import com.pxz.pojo.*;
 import com.pxz.service.*;
 import com.pxz.utils.JsonUtils;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +23,7 @@ import java.util.jar.JarEntry;
 
 
 @Controller//让该类被spring扫描
-@RequestMapping("/User")//路由
+@RequestMapping("/project")//路由
 public class UserController {
 
     @Autowired
@@ -53,25 +55,34 @@ public class UserController {
 
 
     @ResponseBody
-    @RequestMapping("/login")
-    public String login(String userAccount, @Param("password") String pwd, Model model) {
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String login(@RequestParam(name = "account") String userAccount, @RequestParam(name = "password") String pwd) {
         /**   登录   **/
 //        定义map传参
         Map map = new HashMap<>();
+        System.out.println(userAccount);
         map.put("userAccount", userAccount);
         map.put("pwd", pwd);
-        int user_id;
+        for (Object m : map.keySet()) {
+            System.out.println(map.get(m));
+        }
         int code = 1;
         User user = null;
+        String msg = "";
 //        查询数据
         try {
             user = userService.login(map);
-            code = 0;
+//            System.out.println(user.toString());
+            if (user != null) {
+                code = 0;
+            } else {
+                msg = "账号或者密码输入错误, account or password error";
+            }
         } catch (BindingException e2) {
             System.out.println("账户或者密码输入错误");
         }
 //        封装数据
-        Map result = ResultUtils.getResult(user, code);
+        Map result = ResultUtils.getResult(user, code, msg);
 //      转换为json
         String jsonResult = JsonUtils.getJson(result);
         return jsonResult;
@@ -103,15 +114,26 @@ public class UserController {
 
 
     @ResponseBody
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    @RequestMapping(value = "/register", method = RequestMethod.GET)
     public String register(User user) {
         /**注册用户**/
         int data = 0;
         int code = 0;
+        String msg = "成功，success";
 
-        data = userService.registerUser(user);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("account", user.getAccount());
+        map.put("email", user.getEmail());
+        map.put("phoneNumber", user.getPhoneNumber());
+        if (userService.hasUser(map) > 0) {
+            msg = "账号已存在或者邮箱和电话号码已经被绑定, account is already exist";
+            code = 1;
+        } else {
+            data = userService.registerUser(user);
+        }
 
-        Map tmpResult = ResultUtils.getResult(data, code);
+
+        Map tmpResult = ResultUtils.getResult(data, code, msg);
 
         String result = JsonUtils.getJson(tmpResult);
         return result;
@@ -123,6 +145,7 @@ public class UserController {
     public String getArticles(Integer articleId, String searchString) {
         /**获取文章**/
         int code = 0;
+        String msg = "成功, success";
 
         List<Article> allArticles = null;
 
@@ -140,7 +163,7 @@ public class UserController {
 //            code = 1;
 //        }
 
-        Map tmpResult = ResultUtils.getResult(allArticles, code);
+        Map tmpResult = ResultUtils.getResult(allArticles, code, msg);
 
         String result = JsonUtils.getJson(tmpResult);
 
@@ -154,17 +177,18 @@ public class UserController {
         /**更新数据,这里用AOP是否可行？**/
         int data = 0;
         int code = 0;
+        String msg = "成功";
 
 //        让老数据失效
         data = userService.updateUser(user);
 //        插入新数据  aop是否可行？
-        data = userService.registerUser(user);
+        data = userService.insertNewUser(user);
 
-        Map tmpResult = ResultUtils.getResult(data, code);
+        Map tmpResult = ResultUtils.getResult(data, code, msg);
 
         String result = JsonUtils.getJson(tmpResult);
 
-        return null;
+        return result;
     }
 
     @ResponseBody
@@ -173,10 +197,17 @@ public class UserController {
         /**删除用户**/
         int data = 0;
         int code = 0;
+        String msg = "成功, sucess";
 
+//        在团队成员表中删除user
         data = userService.deleteUser(userId);
 
-        Map tmpResult = ResultUtils.getResult(data, code);
+//        将用户的teamId更改为0
+        User user = userService.getUser(userId).get(0);
+        user.setTeamId(0);
+        updateUser(user);
+
+        Map tmpResult = ResultUtils.getResult(data, code, msg);
 
         String result = JsonUtils.getJson(tmpResult);
 
@@ -188,6 +219,7 @@ public class UserController {
     public String getTeamInfo(Integer teamId, String searchString) {
 
         HashMap<String, Object> map = new HashMap<>();
+        String msg = "成功, success";
 
         map.put("teamId", teamId);
         map.put("searchString", searchString);
@@ -208,7 +240,7 @@ public class UserController {
 
     @ResponseBody
     @RequestMapping("/addTeamMember")
-    public String addTeamMember(@Param("teamId") int teamId, @Param("userId") int userId, @Param("roleCode") int roleCode) {
+    public String addTeamMember(int teamId, int userId, int roleCode) {
 
         int data = 0;
         int code = 0;
@@ -239,14 +271,16 @@ public class UserController {
 
     @ResponseBody
     @RequestMapping("/deleteTeamMember")
-    public String deleteTeamMember(@Param("teamId") int teamId, @Param("userId") Integer userId) {
+    public String deleteTeamMember(int teamId, Integer userId) {
 
         int data = 0;
         int code = 0;
+        String msg = "成功, success";
         HashMap<String, Object> map = new HashMap<>();
 
         map.put("teamId", teamId);
         map.put("userId", userId);
+
 
 //        向team_user表插入数据
         data = teamService.deleteTeamMember(map);
@@ -260,7 +294,7 @@ public class UserController {
         }
 
 
-        Map tmpResult = ResultUtils.getResult(data, code);
+        Map tmpResult = ResultUtils.getResult(data, code, msg);
 
         String result = JsonUtils.getJson(tmpResult);
 
@@ -269,15 +303,36 @@ public class UserController {
 
 
     @ResponseBody
-    @RequestMapping("/registerTeam")
-    public String registerTeam(Team team) {
+    @RequestMapping(value = "/registerTeam", method = RequestMethod.GET)
+    public String registerTeam(TeamRegister team) {
 
         int data = 0;
         int code = 0;
+        String msg = "成功, success";
+        int createBy = team.getCreateBy();
 
-        data = teamService.registerTeam(team);
+        try {
+//            注册团队，如果名称重复则抛出异常
+            data = teamService.registerTeam(team);
+//            获取用户，这里只会返回一条数据，将创建者的团队号码设置成刚刚创建的团队
+            List<User> users = userService.getUser(createBy);
+            User user = users.get(0);
+            user.setTeamId(teamService.getCurTeamId());
 
-        Map tmpResult = ResultUtils.getResult(data, code);
+            updateUser(user);
+
+//            添加成员
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("userId", user.getUserId());
+            map.put("teamId", teamService.getCurTeamId());
+//            1表示为管理者
+            map.put("roleCode", 1);
+            teamService.addTeamMenmber(map);
+        } catch (Exception e) {
+            msg = "名称已存在，name is already exist";
+        }
+
+        Map tmpResult = ResultUtils.getResult(data, code, msg);
 
         String result = JsonUtils.getJson(tmpResult);
 
@@ -409,7 +464,7 @@ public class UserController {
 
     @ResponseBody
     @RequestMapping("/createArticle")
-    public String createArticle(Article article){
+    public String createArticle(Article article) {
 
         int date = 0, code = 0;
 
@@ -425,13 +480,14 @@ public class UserController {
 
     @ResponseBody
     @RequestMapping("/updateArticle")
-    public String updateArticle(Article article){
+    public String updateArticle(Article article) {
 
-        int date = 0, code = 0;
+        int data = 0, code = 0;
+        String msg = "成功,sucess";
 
-        int data = articleService.updateArticle(article);
+        data = articleService.updateArticle(article);
 
-        Map tmpResult = ResultUtils.getResult(data, code);
+        Map tmpResult = ResultUtils.getResult(data, code, msg);
 
         String result = JsonUtils.getJson(tmpResult);
 
@@ -441,13 +497,14 @@ public class UserController {
 
     @ResponseBody
     @RequestMapping("/deleteArticle")
-    public String deleteArticle(@Param("articleId") int articleId){
+    public String deleteArticle(@Param("articleId") int articleId) {
 
         int date = 0, code = 0;
+        String msg = "成功, success";
 
         int data = articleService.deleteArticle(articleId);
 
-        Map tmpResult = ResultUtils.getResult(data, code);
+        Map tmpResult = ResultUtils.getResult(data, code, msg);
 
         String result = JsonUtils.getJson(tmpResult);
 
@@ -457,7 +514,7 @@ public class UserController {
 
     @ResponseBody
     @RequestMapping("/getArticleComment")
-    public String getComment(@Param("articleId")int articleId){
+    public String getComment(int articleId) {
 
         int date = 0, code = 0;
 
@@ -475,7 +532,7 @@ public class UserController {
 
     @ResponseBody
     @RequestMapping("/getSubComment")
-    public String getSubComment(@Param("commentId") int commentId){
+    public String getSubComment(@Param("commentId") int commentId) {
 
         int code = 0;
 
@@ -493,14 +550,15 @@ public class UserController {
 
     @ResponseBody
     @RequestMapping("/doComment")
-    public String doComment(@Param("comment") Comment comment){
+    public String doComment(@Param("comment") Comment comment) {
 
         int data = 0, code = 0;
+        String msg = "成功, success";
 
 
         data = commentService.doComment(comment);
 
-        Map tmpResult = ResultUtils.getResult(data, code);
+        Map tmpResult = ResultUtils.getResult(data, code, msg);
 
         String result = JsonUtils.getJson(tmpResult);
 
@@ -510,17 +568,38 @@ public class UserController {
 
     @ResponseBody
     @RequestMapping("/deleteComment")
-    public String deleteComment(@Param("commentId") int commentId){
+    public String deleteComment(@Param("commentId") int commentId) {
 
         int data = 0, code = 0;
+        String msg = "成功, success";
 
 
         data = commentService.deleteComment(commentId);
 
-        Map tmpResult = ResultUtils.getResult(data, code);
+        Map tmpResult = ResultUtils.getResult(data, code, msg);
 
         String result = JsonUtils.getJson(tmpResult);
 
         return result;
     }
+
+
+    @ResponseBody
+    @RequestMapping("/getTeamMember")
+    public String getTeamMember(int teamId) {
+
+        int code = 0;
+        String msg = "成功, success";
+        List<User> data = null;
+
+        data = teamService.getTeamMember(teamId);
+
+        Map tmpResult = ResultUtils.getResult(data, code, msg);
+
+        String result = JsonUtils.getJson(tmpResult);
+
+        return result;
+    }
+
+
 }

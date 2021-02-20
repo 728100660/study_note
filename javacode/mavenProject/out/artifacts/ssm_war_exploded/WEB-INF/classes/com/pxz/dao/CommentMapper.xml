@@ -10,7 +10,7 @@
         from mybatis.comments
         where superior_comment_id = 0
           and article_id = #{articleID}
-          and is_delete = 0;
+          and (is_delete = 0 or is_delete is null) ;
     </select>
 
     <select id="getSubComment" parameterType="int" resultType="Comment">
@@ -21,13 +21,13 @@
 
     <insert id="doComment" parameterType="Comment">
         insert into mybatis.comments(create_by, article_id, content, create_date, superior_comment_id)
-        values (#{createBy}, #{articleId}, #{content}, sysdate(), ifnull(#{superior_comment_id}, 0));
+        values (#{createBy}, #{articleId}, #{content}, sysdate(), ifnull(#{superiorCommentId}, 0));
     </insert>
 
 
     <update id="deleteComment" parameterType="int">
-        update mybatis.comment
+        update mybatis.comments
         set is_delete = 1
-        where comment_id = #{commentId};
+        where id = #{commentId};
     </update>
 </mapper>

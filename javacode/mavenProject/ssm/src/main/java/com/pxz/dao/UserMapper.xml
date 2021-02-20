@@ -29,14 +29,8 @@
     <update id="updateUser" parameterType="User">
         update mybatis.users
         set effective_end_date = sysdate()
-        where user_id = #{user_id}
+        where user_id = #{userId}
           and sysdate() in (ifnull(effective_start_date, sysdate()), ifnull(effective_end_date, sysdate()))
-        --         update insert mybatis.users
---         set phone_number=#{phoneNumber}, email=#{email}, account=#{account}, password=#{password},
---             user_name=#{userName}, role =#{role}, team_id=#{teamId}, register_date=#{registerDate},
---             last_login_date = #{lastLoginDate}, effective_start_date=#{effectiveStartDate},
---             effective_end_date=#{effectiveEndDate}, user_id=#{userId}
---         where id = #{id}
     </update>
 
     <select id="login" parameterType="map" resultType="User">
@@ -54,10 +48,36 @@
                            last_login_date, effective_start_date, effective_end_date, user_id)
         values (#{phoneNumber}, #{email},
                 #{account}, #{password}, #{userName},
-                #{role}, #{teamId}, #{registerDate},
-                #{lastLoginDate}, #{effectiveStartDate},
-                #{effectiveEndDate}, #{userId})
+                #{role}, 0, sysdate(),
+                sysdate(), sysdate(),
+                null, nextval('user_id'))
     </insert>
 
+    <select id="hasUser" parameterType="map" resultType="int">
+        select count(*)
+        from mybatis.users
+        where phone_number = #{phoneNumber}
+           or email = #{email}
+           or account = #{account}
+    </select>
+
+
+    <insert id="insertNewUser" parameterType="user">
+        insert
+        into mybatis.users(phone_number, email, account, password, user_name, role, team_id, register_date,
+                           last_login_date, effective_start_date, effective_end_date, user_id)
+        values (#{phoneNumber}, #{email},
+                #{account}, #{password}, #{userName},
+                #{role}, #{teamId}, sysdate(),
+                sysdate(), sysdate(),
+                null, #{userId})
+    </insert>
+
+    <select id="getRole" parameterType="int">
+        select role
+        from mybatis.users
+        where sysdate() in (ifnull(effective_start_date, sysdate()), ifnull(effective_end_date, sysdate()))
+          and user_id = #{userId}
+    </select>
 
 </mapper>

@@ -6,16 +6,16 @@
 <mapper namespace="com.pxz.dao.TeamMapper">
 
 
-    <select id="getTeamInfo" parameterType="int" resultMap="TeamUser">
+    <select id="getTeamInfo" parameterType="map" resultMap="TeamUser">
         select *
         from mybatis.teams
         where (id = #{teamId} or #{teamId} is null)
           and ifnull(is_delete, 0) = 0
-        and (location like('%${searchString}%') or #{searchString} is null)
-        and (belong_to like('%${searchString}%') or #{searchString} is null)
-        and (introduce like('%${searchString}%') or #{searchString} is null)
-        and (phone_number like('%${searchString}%') or #{searchString} is null)
-        and (email like('%${searchString}%') or #{searchString} is null)
+          and (location like ('%${searchString}%') or #{searchString} is null)
+          and (belong_to like ('%${searchString}%') or #{searchString} is null)
+          and (introduce like ('%${searchString}%') or #{searchString} is null)
+          and (phone_number like ('%${searchString}%') or #{searchString} is null)
+          and (email like ('%${searchString}%') or #{searchString} is null)
     </select>
 
     <resultMap id="TeamUser" type="Team">
@@ -52,8 +52,10 @@
     </delete>
 
     <insert id="registerTeam" parameterType="TeamRegister">
-        insert into mybatis.teams(create_date, create_by, location, belong_to, leader, introduce, phone_number, email)
-        values (sysdate(), #{createBy}, #{location}, #{belongTO}, #{leader}, #{introduce}, #{phoneNumber}, email)
+        insert into mybatis.teams(create_date, create_by, location, belong_to, leader, introduce, phone_number, email,
+                                  id, team_name)
+        values (sysdate(), #{createBy}, #{location}, #{belongTo}, #{leader}, #{introduce}, #{phoneNumber}, #{email},
+                nextval('team_id'), #{teamName})
     </insert>
 
     <update id="deleteTeam" parameterType="int">
@@ -62,5 +64,16 @@
             delete_date = sysdate()
         where id = #{teamId}
     </update>
+
+    <select id="getCurTeamId" resultType="int">
+        select currval('team_id');
+    </select>
+
+    <select id="getTeamMember" parameterType="int" resultType="User">
+        select *
+        from mybatis.users
+        where team_id = #{teamId}
+          and sysdate() in (effective_start_date, ifnull(effective_end_date, sysdate()))
+    </select>
 
 </mapper>

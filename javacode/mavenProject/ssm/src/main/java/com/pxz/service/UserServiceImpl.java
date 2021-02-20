@@ -43,5 +43,20 @@ public class UserServiceImpl implements UserService {
         return userMapper.registerUser(user);
     }
 
+    @Override
+    public int hasUser(Map<String, Object> map) {
+        return userMapper.hasUser(map);
+    }
+
+    @Override
+    public int insertNewUser(User user) {
+        return userMapper.insertNewUser(user);
+    }
+
+    @Override
+    public int getRole(int userId) {
+        return userMapper.getRole(userId);
+    }
+
 
 }

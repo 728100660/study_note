@@ -12,6 +12,7 @@ public class TeamRegister {
     private String introduce;
     private String phoneNumber;
     private String email;
+    private String teamName;
 
     @Override
     public String toString() {
@@ -25,7 +26,16 @@ public class TeamRegister {
                 ", introduce='" + introduce + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", email='" + email + '\'' +
+                ", teamName='" + teamName + '\'' +
                 '}';
+    }
+
+    public String getTeamName() {
+        return teamName;
+    }
+
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
     }
 
     public int getId() {

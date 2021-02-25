@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace 一定不能忘记，要写对-->
+<mapper namespace="com.pxz.dao.PlaceMapper">
+
+    <update id="setStatus" parameterType="map">
+        update MyApp_placenumber
+        set state = #{state}
+        where place = #{place};
+    </update>
+
+    <select id="getPlace" resultType="Place">
+        select * from MyApp_placenumber;
+    </select>
+
+    <select id="getAcademyBuildInfo" resultType="AcademyBuild">
+        select * from MyApp_buildinfo where place = #{place} or #{place} is null ;
+    </select>
+
+    <select id="getClassRoomNumber" resultType="ClassRoomNumber">
+        select * from MyApp_classroomnumber where place like("${index}%");
+    </select>
+</mapper>

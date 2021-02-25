@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace 一定不能忘记，要写对-->
+<mapper namespace="com.pxz.dao.UserMapper">
+
+    <!--    因为配置了typeAlias，所以这里的parameterType可以直接写pojo类名，
+            否则要写完整路径-->
+
+    <!--    根据id删除一个用户-->
+    <update id="deleteUser" parameterType="int">
+
+    </update>
+
+    <!--    根据id查询一个用户-->
+    <select id="getUser" parameterType="int" resultType="User">
+        select name, school, authority, src, major, classes, academy, sex, identity_id
+        from MyApp_user
+        where id = #{userId}
+    </select>
+
+
+    <!--    更新用户,失效用户-->
+    <update id="updateUser" parameterType="User">
+        update mybatis.users
+        set effective_end_date = sysdate()
+        where user_id = #{userId}
+          and sysdate() in (ifnull(effective_start_date, sysdate()), ifnull(effective_end_date, sysdate()))
+    </update>
+
+    <select id="login" parameterType="map" resultType="int">
+        select id
+        from MyApp_user
+        where identity_id = #{count} and password = #{password} and school=#{school}
+    </select>
+
+    <insert id="registerUser" parameterType="User">
+        insert
+        into mybatis.users(phone_number, email, account, password, user_name, role, team_id, register_date,
+                           last_login_date, effective_start_date, effective_end_date, user_id)
+        values (#{phoneNumber}, #{email},
+                #{account}, #{password}, #{userName},
+                #{role}, 0, sysdate(),
+                sysdate(), sysdate(),
+                null, nextval('user_id'))
+    </insert>
+
+    <select id="hasUser" parameterType="map" resultType="int">
+        select count(*)
+        from mybatis.users
+        where phone_number = #{phoneNumber}
+           or email = #{email}
+           or account = #{account}
+    </select>
+
+
+    <insert id="insertNewUser" parameterType="user">
+        insert
+        into mybatis.users(phone_number, email, account, password, user_name, role, team_id, register_date,
+                           last_login_date, effective_start_date, effective_end_date, user_id)
+        values (#{phoneNumber}, #{email},
+                #{account}, #{password}, #{userName},
+                #{role}, #{teamId}, sysdate(),
+                sysdate(), sysdate(),
+                null, #{userId})
+    </insert>
+
+    <select id="getRole" parameterType="int">
+        select authority
+        from MyApp_user
+        where id = #{userId}
+    </select>
+
+</mapper>

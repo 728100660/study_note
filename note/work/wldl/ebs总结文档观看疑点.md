@@ -74,3 +74,4 @@ BEGIN
 来模拟登录，resp_id 代表职责id，resp_appl_id（不知道）
 
 上面的参数在ebs中，help，检查，块$PROFILES$中查找
+

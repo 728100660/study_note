@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace 一定不能忘记，要写对-->
+<mapper namespace="com.pxz.dao.CommentMapper">
+
+    <select id="getComment" resultType="Comment">
+        select *
+        from mybatis.comments
+        where superior_comment_id = 0
+          and article_id = #{articleID}
+          and (is_delete = 0 or is_delete is null) ;
+    </select>
+
+    <select id="getSubComment" parameterType="int" resultType="Comment">
+        select *
+        from comments
+        where find_in_set(id, getChildrenComment(#{comment_id}));
+    </select>
+
+    <insert id="doComment" parameterType="Comment">
+        insert into mybatis.comments(create_by, article_id, content, create_date, superior_comment_id)
+        values (#{createBy}, #{articleId}, #{content}, sysdate(), ifnull(#{superiorCommentId}, 0));
+    </insert>
+
+
+    <update id="deleteComment" parameterType="int">
+        update mybatis.comments
+        set is_delete = 1
+        where id = #{commentId};
+    </update>
+</mapper>

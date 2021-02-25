@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace 一定不能忘记，要写对-->
+<mapper namespace="com.pxz.dao.TeamMapper">
+
+
+    <select id="getTeamInfo" parameterType="map" resultMap="TeamUser">
+        select *
+        from mybatis.teams
+        where (id = #{teamId} or #{teamId} is null)
+          and ifnull(is_delete, 0) = 0
+          and (location like ('%${searchString}%') or #{searchString} is null)
+          and (belong_to like ('%${searchString}%') or #{searchString} is null)
+          and (introduce like ('%${searchString}%') or #{searchString} is null)
+          and (phone_number like ('%${searchString}%') or #{searchString} is null)
+          and (email like ('%${searchString}%') or #{searchString} is null)
+    </select>
+
+    <resultMap id="TeamUser" type="Team">
+        <!--        <collection property="createBy" javaType="List" ofType="Team" select="getUser" column="id"></collection>-->
+        <association property="createBy" javaType="User" select="getCreateUser" column="create_by"></association>
+        <association property="leader" javaType="User" select="getLeaderUser" column="leader"></association>
+    </resultMap>
+
+    <select id="getCreateUser" parameterType="int" resultType="User">
+        select *
+        from mybatis.users
+        where id = #{createBy}
+    </select>
+
+    <select id="getLeaderUser" parameterType="int" resultType="User">
+        select *
+        from mybatis.users
+        where id = #{leader}
+    </select>
+
+
+    <insert id="addTeamMenmber" parameterType="map">
+        insert into mybatis.team_number(team_id, user_id, role_code)
+        values (#{teamId}, #{userId}, #{roleCode})
+    </insert>
+    <!--    from mybatis.teams t, mybatis.users u1, mybatis.users u2, mybatis.users u3-->
+    <!--    where t.id = u1.team_id and t.create_by = u2.id and t.leader = u3.id-->
+
+    <delete id="deleteTeamMember" parameterType="map">
+        delete
+        from mybatis.team_number
+        where team_id = #{teamId}
+          and (user_id = #{userId} or #{userId} is null)
+    </delete>
+
+    <insert id="registerTeam" parameterType="TeamRegister">
+        insert into mybatis.teams(create_date, create_by, location, belong_to, leader, introduce, phone_number, email,
+                                  id, team_name)
+        values (sysdate(), #{createBy}, #{location}, #{belongTo}, #{leader}, #{introduce}, #{phoneNumber}, #{email},
+                nextval('team_id'), #{teamName})
+    </insert>
+
+    <update id="deleteTeam" parameterType="int">
+        update mybatis.teams
+        set is_delete   = 1,
+            delete_date = sysdate()
+        where id = #{teamId}
+    </update>
+
+    <select id="getCurTeamId" resultType="int">
+        select currval('team_id');
+    </select>
+
+    <select id="getTeamMember" parameterType="int" resultType="User">
+        select *
+        from mybatis.users
+        where team_id = #{teamId}
+          and sysdate() in (effective_start_date, ifnull(effective_end_date, sysdate()))
+    </select>
+
+</mapper>

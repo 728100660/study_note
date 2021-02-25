@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace 一定不能忘记，要写对-->
+<mapper namespace="com.pxz.dao.ArticleMapper">
+
+
+    <!--查询文章信息-->
+    <select id="getArticleInfo" parameterType="int" resultType="Article">
+        select *
+        from mybatis.articles
+        where id = #{articleId}
+           or #{articleId} is null
+            and (title like ('%${searchString}%') or #{searchString} is null)
+            and (content like ('%${searchString}%') or #{searchString} is null)
+            and (is_delete = 0 or is_delete is null)
+    </select>
+
+    <insert id="createArticle" parameterType="Article">
+        insert into mybatis.articles(create_by, team_id, title, content, create_date, last_change_date)
+        values (#{createBy}, #{teamId}, #{title}, #{content}, sysdate(), sysdate())
+    </insert>
+
+
+    <update id="updateArticle" parameterType="Article">
+        update mybatis.articles
+        set title            = #{title},
+            content          = #{content},
+            last_change_date = sysdate()
+        where id = #{articleId}
+    </update>
+
+
+    <update id="deleteArticle" parameterType="int">
+        update mybatis.articles
+        set is_delete = 1
+        where id = #{articleId}
+    </update>
+
+</mapper>

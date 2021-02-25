@@ -1,0 +1,17 @@
+package com.pxz.service;
+
+import com.pxz.pojo.Article;
+
+import java.util.List;
+import java.util.Map;
+
+public interface ArticleService {
+
+    List<Article> getArticleInfo(Map<String,Object> map);
+
+    int createArticle(Article article);
+
+    int updateArticle(Article article);
+
+    int deleteArticle(int articleId);
+}

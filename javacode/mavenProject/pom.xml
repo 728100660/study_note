@@ -10,7 +10,8 @@
     <module>springmvc-01-use</module>  
     <module>mybatis-01-use</module>  
     <module>ssm</module>  
-    <module>java-utils</module> 
+    <module>java-utils</module>
+      <module>JianAn</module>
   </modules>  
   <properties> 
     <maven.compiler.source>8</maven.compiler.source>  
@@ -41,7 +42,7 @@
       <groupId>javax.servlet.jsp</groupId>  
       <artifactId>jsp-api</artifactId>  
       <version>2.2.1-b03</version> 
-    </dependency> 
+    </dependency>
   </dependencies>  
   <build> 
     <resources> 

@@ -42,25 +42,25 @@ public class AuthorityJudge {
 //        执行环绕前
         String proceed = (String) jp.proceed();
 
-        Object[] args = jp.getArgs();
-
-        MethodSignature methodSignature = (MethodSignature)jp.getSignature();
-
-        String[] parameterNames = methodSignature.getParameterNames();
-
-        System.out.println(parameterNames);
-
-        //获取参数名
-        int deviceIdIndex = ArrayUtils.indexOf(parameterNames, "userId");
-
-        Integer userId = null;
-
-        //通过参数 Index 过去参数信息
-        if (deviceIdIndex!=-1){
-            userId = (Integer)args[deviceIdIndex];
-        }
-
-        this.userService.getRole(userId);
+//        Object[] args = jp.getArgs();
+//
+//        MethodSignature methodSignature = (MethodSignature)jp.getSignature();
+//
+//        String[] parameterNames = methodSignature.getParameterNames();
+//
+//        System.out.println(parameterNames);
+//
+//        //获取参数名
+//        int deviceIdIndex = ArrayUtils.indexOf(parameterNames, "userId");
+//
+//        Integer userId = null;
+//
+//        //通过参数 Index 过去参数信息
+//        if (deviceIdIndex!=-1){
+//            userId = (Integer)args[deviceIdIndex];
+//        }
+//
+//        this.userService.getRole(userId);
 
 
 //        System.out.println("articleId"+"为"+deviceId);

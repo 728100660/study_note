@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace 一定不能忘记，要写对-->
+<mapper namespace="com.pxz.dao.NoticeMapper">
+
+    <insert id="createNotice" parameterType="map">
+        insert into MyApp_notify(title, publisher, release_time, content)
+        values (#{title}, #{userId}, sysdate(), #{content})
+    </insert>
+
+    <select id="getNotices" resultType="Notice">
+        select *
+        from MyApp_notify
+    </select>
+
+
+
+</mapper>

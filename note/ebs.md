@@ -133,3 +133,35 @@ log('p_org_name:' || p_org_name);
 ​	t：游标接收变量
 
 ​	g：全局变量
+
+### 2.21
+
+#### 账户密码
+
+​	wldl账户密码查询sql
+
+```sql
+select fu.user_name || '/' || cux_ad_pkg.ad_decrypt(fu.encrypted_user_password)
+from fnd_user fu
+where fu.user_name like 'HAND%ZLL';
+```
+
+### 2.22
+
+查找数据块的最后一次搜索，在   帮助，检查，属性，项目，对应的块
+
+![image-20210222152114224](C:\Users\72810\AppData\Roaming\Typora\typora-user-images\image-20210222152114224.png)
+
+更新fmb文件 上传到$AU_TOP/forms/ZHS/fmb文件夹下，执行
+
+
+
+
+
+### 2.23
+
+更改 程序包  cux_inv_scrap_handle_pub的 insert_temp   的p_scrap_num_from  - to的判断
+
+更改CUXINVRSLF.fmb文件     添加了一个   行的搜索
+
+![image-20210223115447540](C:\Users\72810\AppData\Roaming\Typora\typora-user-images\image-20210223115447540.png)

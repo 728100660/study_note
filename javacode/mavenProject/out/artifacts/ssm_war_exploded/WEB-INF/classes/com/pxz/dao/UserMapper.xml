@@ -73,4 +73,11 @@
                 null, #{userId})
     </insert>
 
+    <select id="getRole" parameterType="int">
+        select role
+        from mybatis.users
+        where sysdate() in (ifnull(effective_start_date, sysdate()), ifnull(effective_end_date, sysdate()))
+          and user_id = #{userId}
+    </select>
+
 </mapper>

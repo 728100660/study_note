@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="java-utils" />
         <module name="mybatis-01-use" />
+        <module name="JianAn" />
         <module name="ssm" />
         <module name="springmvc-01-use" />
       </profile>
